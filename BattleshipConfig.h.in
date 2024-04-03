@@ -1,0 +1,2 @@
+#define Battleship_VERSION_MAJOR @Battleship_VERSION_MAJOR@
+#define Battleship_VERSION_MINOR @Battleship_VERSION_MINOR@
