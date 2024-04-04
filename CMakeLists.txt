@@ -4,8 +4,10 @@ project (Battleship VERSION 1.0)
 
 configure_file(BattleshipConfig.h.in BattleshipConfig.h)
 
+set(SOURCES judge.cpp player.cpp console.h)
+
 add_executable(judge judge.cpp)
-add_executable(player player.cpp)
+add_executable(player player.cpp console.h)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
