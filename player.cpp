@@ -10,19 +10,23 @@
 #include <sys/types.h>
 #include <thread>
 
+#include "console.h"
+
 std::mutex lock;
 
 void AccessToConsole()
 {
     std::lock_guard<decltype(lock)> latch(lock);
     // Player 1 or Player 2 access console
+    ConsoleCreationParameters ccp{10, 14, 10, 10, false, true};
+    Console console{ccp};
 }
 
 int main() {
     struct sockaddr_in saddr;
     struct hostent *h;
     int sockfd, connfd;
-    unsigned short port = 1938;
+    unsigned short port = 1236;
     if((sockfd=socket(AF_INET, SOCK_STREAM, 0) < 0)) { // from back a couple slides
         std::cout << "Error creating socket\n";
     }

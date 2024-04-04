@@ -21,14 +21,14 @@ int main(int argc, char *argv[])
     } else {
         struct sockaddr_in saddr, caddr;
         int sockfd, isock;
-        unsigned short port = 1938;
+        unsigned short port = 1236;
         if((sockfd=socket(AF_INET, SOCK_STREAM, 0) < 0)) { // from back a couple slides
             std::cout << std::string("Error creating socket") << std::endl;
         }
         memset(&saddr, '\0', sizeof(saddr)); // zero structure out
         saddr.sin_family = AF_INET; // match the socket() call
         saddr.sin_addr.s_addr = htonl(INADDR_ANY); // bind to any local address
-        saddr.sin_port = htons(1938); // specify port to listen on
+        saddr.sin_port = htons(1236); // specify port to listen on
         if((bind(sockfd, (struct sockaddr *) &saddr, sizeof(saddr)) < 0)) { // bind!
             std::cout << "Error binding\n";
         }
