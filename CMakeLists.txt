@@ -4,7 +4,7 @@ project (Battleship VERSION 1.0)
 
 configure_file(BattleshipConfig.h.in BattleshipConfig.h)
 
-set(SOURCES judge.cpp player.cpp console.h)
+set(SOURCES judge.cpp player.cpp console.h socket.h socket.cpp)
 
 add_executable(judge judge.cpp config.h socket.h socket.cpp)
 add_executable(player player.cpp console.h config.h socket.h socket.cpp)
