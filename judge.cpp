@@ -68,9 +68,9 @@ int main(int argc, char const* argv[])
         printf("Hello message sent\n");
     
         // closing the connected socket
-        close(new_socket);
+        // close(new_socket);
         // closing the listening socket
-        close(server_fd);
+        // close(server_fd);
     }
     return 0;
     

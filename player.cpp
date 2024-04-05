@@ -60,7 +60,7 @@ int main(int argc, char const* argv[]) {
     printf("%s\n", buffer);
  
     // closing the connected socket
-    close(client_fd);
+    // close(client_fd);
 
     constexpr int numberOfThreads = 2;
     std::vector<std::thread> playerThreads;
