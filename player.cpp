@@ -9,7 +9,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <thread>
-
+#include <unistd.h>
 #include "console.h"
 
 std::mutex lock;
@@ -22,26 +22,45 @@ void AccessToConsole()
     Console console{ccp};
 }
 
-int main() {
-    struct sockaddr_in saddr;
-    struct hostent *h;
-    int sockfd, connfd;
-    unsigned short port = 1236;
-    if((sockfd=socket(AF_INET, SOCK_STREAM, 0) < 0)) { // from back a couple slides
-        std::cout << "Error creating socket\n";
+int main(int argc, char const* argv[]) {
+    const int PORT{8080};
+    int status, valread, client_fd;
+    struct sockaddr_in serv_addr;
+    const char* hello = "Hello from client";
+    char buffer[1024] = { 0 };
+    if ((client_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        printf("\n Socket creation error \n");
+        return -1;
     }
-    const char* ipstr = "127.0.0.1";
-    struct in_addr ip;
-    if((h=gethostbyaddr((const void *)&ip, sizeof(ip), AF_INET)) == nullptr) { // Lookup the hostname
-        std::cout << "Unknown host\n";
+ 
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(PORT);
+ 
+    // Convert IPv4 and IPv6 addresses from text to binary
+    // form
+    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)
+        <= 0) {
+        printf(
+            "\nInvalid address/ Address not supported \n");
+        return -1;
     }
-    memset(&saddr, '\0', sizeof(saddr)); // zero structure out
-    saddr.sin_family = AF_INET; // match the socket() call
-    memcpy((char *) &saddr.sin_addr.s_addr, h->h_addr_list[0], h->h_length); // copy the address
-    saddr.sin_port = htons(port); // specify port to connect to
-    if((connfd=connect(sockfd, (struct sockaddr *) &saddr, sizeof(saddr)) < 0)) { // connect!
-        std::cout << "Cannot connect\n";
+ 
+    if ((status
+         = connect(client_fd, (struct sockaddr*)&serv_addr,
+                   sizeof(serv_addr)))
+        < 0) {
+        printf("\nConnection Failed \n");
+        return -1;
     }
+    send(client_fd, hello, strlen(hello), 0);
+    printf("Hello message sent\n");
+    valread = read(client_fd, buffer,
+                   1024 - 1); // subtract 1 for the null
+                              // terminator at the end
+    printf("%s\n", buffer);
+ 
+    // closing the connected socket
+    close(client_fd);
 
     constexpr int numberOfThreads = 2;
     std::vector<std::thread> playerThreads;
