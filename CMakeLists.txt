@@ -6,8 +6,8 @@ configure_file(BattleshipConfig.h.in BattleshipConfig.h)
 
 set(SOURCES judge.cpp player.cpp console.h)
 
-add_executable(judge judge.cpp)
-add_executable(player player.cpp console.h)
+add_executable(judge judge.cpp config.h socket.h socket.cpp)
+add_executable(player player.cpp console.h config.h socket.h socket.cpp)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
