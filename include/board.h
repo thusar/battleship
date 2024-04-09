@@ -1,53 +1,21 @@
+#include <array>
 #include <iostream>
 #include <optional>
 #include <string>
 #include <vector>
 
-struct IBuffer 
-{
-    
-};
 
-struct Viewport 
+class Board
 {
-    int width{10};
-    int height{10};
-    std::vector<int> horizontalSums;
-    std::vector<int> verticalSums;
-};
+private:
+    std::array<std::array<char, 10>, 10> _board;
+    static const int CARRIER{5};
+    static const int BATTLESHIP{4};
+    static const int DESTROYER{3};
+    static const int SUBMARINE{3};
+    static const int PATROL_BOAT{2};
 
-struct TableBuffer : IBuffer
-{
-    struct TableColumnSpec
-    {
-        std::string header;
-        int width;
-        enum class TableColumnAlignment {
-        Left, Center, Right
-        }  alignment;
-    };
-    TableBuffer(std::vector<TableColumnSpec> spec, int totalHeight) {  }
-};
+public:
 
-struct ConsoleCreationParameters
-{
-    std::optional<size_t> client_size;
-    int character_width{10};
-    int character_height{14};
-    int width{10};
-    int height{10};
-    bool fullscreen{false};
-    bool create_default_view_and_buffer{true};
 };
-
-struct Console
-{
-    std::vector<Viewport*> viewports;
-    size_t charSize, gridSize;
-    Console(const ConsoleCreationParameters& ccp);
-};
-
-Console::Console(const ConsoleCreationParameters& ccp) 
-{
-}
 
