@@ -1,13 +1,15 @@
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.16)
 
 project (Battleship VERSION 1.0)
 
 configure_file(BattleshipConfig.h.in BattleshipConfig.h)
 
-set(SOURCES judge.cpp player.cpp console.h socket.h socket.cpp)
+include_directories(${PROJECT_SOURCE_DIR}/include)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 
-add_executable(judge judge.cpp config.h socket.h socket.cpp)
-add_executable(player player.cpp console.h config.h socket.h socket.cpp)
+add_executable(judge ${PROJECT_SOURCE_DIR}/src/judge.cpp)
+              
+add_executable(player ${PROJECT_SOURCE_DIR}/src/player.cpp)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
