@@ -11,19 +11,15 @@ Socket::Socket(const std::string & _ip, uint16_t _port, bool _verbose)
     servaddr = nullptr;
 
     // socket create and verification 
-    sockfd = socket(AF_INET, SOCK_STREAM, 0); 
-    if (sockfd == -1)
-    {
+    sockfd = std::socket(AF_INET, SOCK_STREAM, 0); 
+    if (sockfd == -1) {
         throw std::runtime_error("socket creation failed");
-    } 
-    else
-    {
-        if(verbose)
-        {
+    } else {
+        if(verbose) {
             std::cout << "Socket successfully created" << std::endl;
         }
     }
-    servaddr = new sockaddr_in;
+    servaddr = std::make_shared<struct sockaddr_in>;
     bzero(servaddr, sizeof(struct sockaddr_in)); 
   
     // assign IP, PORT 
@@ -44,10 +40,6 @@ Socket::~Socket()
 {
     // After chatting close the socket 
     close(sockfd);
-    if(servaddr)
-    {
-        delete servaddr;
-    }
 }
 
 ssize_t Socket::read(std::string buff, size_t len)

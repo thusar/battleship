@@ -10,7 +10,7 @@ private:
     int sockfd;
     int connfd;
     uint16_t port;
-    struct sockaddr_in * servaddr;
+    struct sockaddr_in* servaddr;
     std::string ip;
     bool verbose;  
 public:
@@ -27,8 +27,8 @@ public:
     uint64_t read_uint64();
     uint8_t read_uint8();
 
-    void write_uint64(const uint64_t & value);
-    void write_uint8(const uint8_t & value);
+    void write_uint64(const uint64_t& value);
+    void write_uint8(const uint8_t& value);
 
 
 };
