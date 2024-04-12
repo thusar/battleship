@@ -83,12 +83,7 @@ uint8_t Socket::read_uint8()
 
 void Socket::write_uint64(const uint64_t& value)
 {
-  std::string buffer;
-  for(int i = 0; i < 10; i++)
-  {
-    buffer[i] = uint8_t((value >> 8*(7 - i)) & 0xFF);
-  }
-  this->write(buff, 8);
+  this->write((const char*)&value, 1);
 }
 
 void Socket::write_uint8(const uint8_t& value)
