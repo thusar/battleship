@@ -42,41 +42,36 @@ Socket::~Socket()
     close(sockfd);
 }
 
-ssize_t Socket::read(std::string buff, size_t len)
+ssize_t Socket::read(std::string buffer)
 {
-  return ::read(connfd, buff, len);
+  return ::read(connfd, buffer, std::length(buffer));
 }
 
-ssize_t Socket::write(std::string buff, size_t len)
+ssize_t Socket::write(std::string buffer)
 {
-  return ::write(connfd, buff, len);
+  return ::write(connfd, buffer, std::length(buffer));
 }
 
 std::string Socket::read()
 {
   std::size_t len = this->read_uint64();
-  char * ch = new char[len];
-  this->read(ch, len);
-  return ch;
+  std::string charArray{};
+  this->read(charArray);
+  return charArray;
 }
 
 void Socket::write(std::string str)
 {
-  uint64_t len = strlen(str) + 1;
+  uint64_t len = std::size(str);
   this->write_uint64(len);
-  this->write(str, len);
+  this->write(str, std::size(str));
 }
 
 uint64_t Socket::read_uint64()
 {
-  char buff[8];
-  this->read(buff, 8);
-  uint64_t res = 0;
-  for(int i = 0; i < 8; i++)
-  {
-    res += uint64_t(buff[i]) << 8*(7-i);
-  }
-  return res;
+  std::string buffer{};
+  this->read(&buffer, 1);
+  return (uint64_t)buff;
 }
 
 uint8_t Socket::read_uint8()
@@ -86,17 +81,17 @@ uint8_t Socket::read_uint8()
   return (uint8_t)buff;
 }
 
-void Socket::write_uint64(const uint64_t & value)
+void Socket::write_uint64(const uint64_t& value)
 {
-  char buff[8];
-  for(int i = 0; i < 8; i++)
+  std::string buffer;
+  for(int i = 0; i < 10; i++)
   {
-    buff[i] = uint8_t((value >> 8*(7 - i)) & 0xFF);
+    buffer[i] = uint8_t((value >> 8*(7 - i)) & 0xFF);
   }
   this->write(buff, 8);
 }
 
-void Socket::write_uint8(const uint8_t & value)
+void Socket::write_uint8(const uint8_t& value)
 {
   this->write((const char*)&value, 1);
 }
