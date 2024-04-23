@@ -16,11 +16,13 @@
 class Client
 {
 private:
+    int _clientSocket;
+    sockaddr_in _sockaddr;
 public:
     Client();
     void report(const std::string& msg, int terminate);
     void read();
-    void write(int count);
+    void write();
 };
 
 #endif
