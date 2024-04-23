@@ -27,8 +27,12 @@ Client::Client()
         ((struct in_addr*) hptr->h_addr_list[0])->s_addr;
     _sockaddr.sin_port = htons(PORTNUMBER); /* port number in big-endian */ 
 
-    if (connect(_clientSocket, (sockaddr*) &_sockaddr, sizeof(_sockaddr)) < 0)
-        report("connect", 1);   
+    if (connect(_clientSocket, (sockaddr*) &_sockaddr, sizeof(_sockaddr)) < 0) {
+        report("connect", 1);
+    } else {
+        std::cout << "error";
+    }
+           
 }
 
 void Client::write() 
