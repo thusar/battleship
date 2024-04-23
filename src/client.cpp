@@ -35,22 +35,19 @@ void Client::write()
 {
     /* Write some stuff and read the echoes. */
     int i;
-    _clientSocket = socket(AF_INET,      /* versus AF_LOCAL */
-		                   SOCK_STREAM,  /* reliable, bidirectional */
-                           0);           /* system picks protocol (TCP) */
     std::string msg{"OK"};                    
-    if (::write(_clientSocket, msg.data(), msg.size()) > 0)
-    {
-        std::cout << "OK";            
+    if (::write(_clientSocket, msg.data(), msg.size()) > 0) {
+        std::cout << "OK";
+        std::cout << msg.data();            
+    }
+    else {
+        std::cout << "error";
     }
 }
            
 void Client::read()
 {
     std::string buffer{};
-    _clientSocket = socket(AF_INET,      /* versus AF_LOCAL */
-		                SOCK_STREAM,  /* reliable, bidirectional */
-		                0);           /* system picks protocol (TCP) */
     if (::read(_clientSocket, (void*)buffer.c_str(), sizeof(buffer) > 0))
     {
         std::cout << "OK";
