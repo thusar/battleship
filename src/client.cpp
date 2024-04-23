@@ -3,7 +3,7 @@
 
 void Client::report(const std::string& msg, int terminate) {
   perror(msg.c_str());
-  if (terminate) exit(-1); /* failure */
+  std::cout << msg;  if (terminate) exit(-1); /* failure */
 }
 
 Client::Client()
@@ -12,26 +12,22 @@ Client::Client()
     _clientSocket = socket(AF_INET,      /* versus AF_LOCAL */
 		                  SOCK_STREAM,  /* reliable, bidirectional */
 		                  0);           /* system picks protocol (TCP) */
-    if (_clientSocket < 0) report("socket", 1); /* terminate */
+    if (_clientSocket < 0) report("socket error", 1); /* terminate */
 
     /* get the address of the host */
     hostent* hptr = gethostbyname(HOST.c_str()); /* localhost: 127.0.0.1 */ 
-    if (!hptr) report("gethostbyname", 1); /* is hptr NULL? */
+    if (!hptr) report("gethostbyname error", 1); /* is hptr NULL? */
     if (hptr->h_addrtype != AF_INET)       /* versus AF_LOCAL */
         report("bad address family", 1);
   
     /* connect to the server: configure server's address 1st */
-    // sockaddr_in saddr{};
+    // sockaddr_in _saddr{};
     _sockaddr.sin_family = AF_INET;
-    _sockaddr.sin_addr.s_addr = 
-        ((struct in_addr*) hptr->h_addr_list[0])->s_addr;
+    _sockaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    //    ((in_addr*) hptr->h_addr_list[0])->s_addr;
     _sockaddr.sin_port = htons(PORTNUMBER); /* port number in big-endian */ 
 
-    if (connect(_clientSocket, (sockaddr*) &_sockaddr, sizeof(_sockaddr)) < 0) {
-        report("connect", 1);
-    } else {
-        std::cout << "error";
-    }
+    int connectReturn = connect(_clientSocket, (sockaddr*) &_sockaddr, sizeof(_sockaddr));
            
 }
 
@@ -39,13 +35,11 @@ void Client::write()
 {
     /* Write some stuff and read the echoes. */
     int i;
-    std::string msg{"OK"};                    
+    std::string msg{"OK iz client write"};                    
     if (::write(_clientSocket, msg.data(), msg.size()) > 0) {
-        std::cout << "OK";
-        std::cout << msg.data();            
     }
     else {
-        std::cout << "error";
+        std::cout << "error during client write" << std::endl;
     }
 }
            

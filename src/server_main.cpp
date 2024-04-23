@@ -5,6 +5,8 @@ int main()
 {
     Server server;
     std::string msg = server.read();
+    std::cout << "server main message: " << msg << std::endl;
+    
     server.write(msg);
     return 0;
 }
