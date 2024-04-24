@@ -15,12 +15,13 @@ class Server
 {
 private:
     int _serverSocket;
-    sockaddr_in _sockaddr;  
+    sockaddr_in _sockaddr;
+    int _clientSocket;  
 public:
     Server();
     void report(const std::string& msg, int terminate);
     std::string read();
-    void write(const std::string& msg);
+    void write();
 };
 
 #endif

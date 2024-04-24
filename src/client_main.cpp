@@ -5,7 +5,9 @@
 int main()
 {
     Client client;
+    
     client.write();
-    client.read();
+    std::string msg = client.read();
+    std::cout << "client main message: " << msg << std::endl;
     return 0;
 }

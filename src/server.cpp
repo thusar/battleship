@@ -27,20 +27,18 @@ Server::Server()
 
 std::string Server::read()
 {
-    
-        int i;
         socklen_t len = sizeof(_sockaddr);  /* address length could change */
-        int clientSocket = accept(_serverSocket, (sockaddr*)&_sockaddr, &len);  /* accept blocks */
-        if (clientSocket < 0) {
+        _clientSocket = accept(_serverSocket, (sockaddr*)&_sockaddr, &len);  /* accept blocks */
+        if (_clientSocket < 0) {
             report("accept error", 0); /* don't terminated, though there's a problem */
         }
         char buffer[1024] = {0};
-        ssize_t readReturn = recv(clientSocket, buffer, sizeof(buffer), 0);
+        ssize_t readReturn = recv(_clientSocket, buffer, sizeof(buffer), 0);
         return std::string(buffer);
 }
 
-void Server::write(const std::string& msg)
+void Server::write()
 {
-        ssize_t writeReturn = ::write(_serverSocket, msg.data(), msg.size()); /* echo as confirmation */
-
+    std::string msg{"OK iz server write"};
+    ssize_t writeReturn = ::write(_clientSocket, msg.data(), msg.size()); /* echo as confirmation */
 }

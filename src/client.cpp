@@ -32,23 +32,15 @@ Client::Client()
 void Client::write() 
 {
     /* Write some stuff and read the echoes. */
-    int i;
     std::string msg{"OK iz client write"};                    
-    if (::write(_clientSocket, msg.data(), msg.size()) > 0) {
-    }
-    else {
-        std::cout << "error during client write" << std::endl;
-    }
+    ssize_t writeReturn = ::write(_clientSocket, msg.data(), msg.size());
 }
            
-void Client::read()
+std::string Client::read()
 {
-    std::string buffer{};
-    if (::read(_clientSocket, (void*)buffer.c_str(), sizeof(buffer) > 0))
-    {
-        std::cout << "OK";
-    }
-    
+    char buffer[1024] = {0};
+    ssize_t readReturn = recv(_clientSocket, buffer, sizeof(buffer), 0);
+    return std::string(buffer);
 }
 
 
