@@ -21,10 +21,8 @@ Client::Client()
         report("bad address family", 1);
   
     /* connect to the server: configure server's address 1st */
-    // sockaddr_in _saddr{};
     _sockaddr.sin_family = AF_INET;
     _sockaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    //    ((in_addr*) hptr->h_addr_list[0])->s_addr;
     _sockaddr.sin_port = htons(PORTNUMBER); /* port number in big-endian */ 
 
     int connectReturn = connect(_clientSocket, (sockaddr*) &_sockaddr, sizeof(_sockaddr));
