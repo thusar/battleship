@@ -19,9 +19,11 @@ private:
     int _clientSocket;  
 public:
     Server();
+    Server(int listeningSocket);
     void report(const std::string& msg, int terminate);
-    std::string read();
-    void write();
+    inline int get_client_socket() { return _clientSocket; }
+//    std::string read();
+//    void write();
 };
 
 #endif

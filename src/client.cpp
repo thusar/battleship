@@ -29,10 +29,9 @@ Client::Client()
            
 }
 
-void Client::write() 
+void Client::write(const std::string& msg) 
 {
     /* Write some stuff and read the echoes. */
-    std::string msg{"OK iz client write"};                    
     ssize_t writeReturn = ::write(_clientSocket, msg.data(), msg.size());
 }
            

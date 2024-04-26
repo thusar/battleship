@@ -9,4 +9,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(client_main ./src/client_main.cpp ./src/client.cpp)
 
-add_executable(server_main ./src/server_main.cpp ./src/server.cpp)
+add_executable(server_main ./src/server_main.cpp ./src/server.cpp ./src/listener.cpp)

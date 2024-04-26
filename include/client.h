@@ -21,7 +21,7 @@ private:
 public:
     Client();
     void report(const std::string& msg, int terminate);
-    void write();
+    void write(const std::string& msg);
     std::string read();
     
 };
