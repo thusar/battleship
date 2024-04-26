@@ -13,14 +13,15 @@
 class Listener
 {
 private:
-    int _listenerSocket;
-    sockaddr_in _sockaddr; 
+    std::string _ip{"0.0.0.0"};
+    int  _listenerFileDescriptor{socket(AF_INET, SOCK_STREAM, 0)}; 
 public:
-    Listener(int listenerSocket, sockaddr_in sockaddr);
-    int get_listener_socket() { return _listenerSocket; }
-    void report(const std::string& msg, int terminate);
-    std::string read();
-    void write();    
+    Listener(std::string ip, int listenerFileDescriptor);
+    // int get_listener_socket() { return _listenerSocket; }
+    int accept();
+    //void report(const std::string& msg, int terminate);
+    //std::string read();
+    //void write();    
 };
 
 #endif

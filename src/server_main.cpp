@@ -11,24 +11,22 @@ int main()
 //    server.write();
 //    return 0;
     std::string msg{""};
-    sockaddr_in sockaddrListener{};
-    sockaddrListener.sin_family = AF_INET;                /* versus AF_LOCAL */
-    sockaddrListener.sin_addr.s_addr = htonl(INADDR_ANY); /* host-to-network endian */
-    sockaddrListener.sin_port = htons(PORTNUMBER);        /* for listening */
-    Listener listener(HOST, sockaddrListener);
-    Server server{listener};
+    Listener listener(HOST, PORTNUMBER);
+    // Server server{listener};
     bool running{true};
     while (running) {
-        char buffer[BUFFSIZE] = {0};
-        ssize_t readReturn = recv(server._clientSocket, buffer, sizeof(buffer), 0);
-        msg = listener.read();
+        int clientFileDescriptor = listener.accept();
+        // char buffer[BUFFSIZE] = {0};
+        // ssize_t readReturn = listener.read();
+
+        msg = clientFileDescriptor.recv();
         std::cout << msg << std::endl;
-        listener.write();
+        // listener.write();
         if (msg == std::string("close connection")) {
             break;
         }
         if (msg == std::string("close server")) {
-            running = False
+            running = false;
             break;
         }
     };
