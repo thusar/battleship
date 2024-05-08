@@ -9,17 +9,17 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <netdb.h>
-#include "socket.h"
-
 #include <iostream>
+
+#include "../include/socket.h" // constants
 
 class Client
 {
 private:
     int _clientSocket;
-    sockaddr_in _sockaddr;
+    
 public:
-    Client();
+    Client(std::string ip, int clientFileDescriptor);
     void report(const std::string& msg, int terminate);
     void write(const std::string& msg);
     std::string read();

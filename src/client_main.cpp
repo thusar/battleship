@@ -12,7 +12,7 @@ void wait(double sec)
 int main()
 {
     // First client
-    Client client;
+    Client client{std::string("localhost"), PORTNUMBER};
     
     client.write(std::string("foo"));
     wait(SLEEPTIME);
@@ -21,7 +21,7 @@ int main()
     client.write(std::string("close connection"));
 
     // Second client
-    Client clientSecond;
+    Client clientSecond{std::string("localhost"), PORTNUMBER};
     clientSecond.write(std::string("foo"));
     wait(SLEEPTIME);
     msg = clientSecond.read();

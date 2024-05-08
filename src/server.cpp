@@ -25,11 +25,6 @@ Server::Server()
     /* listen to the socket */
     if (listen(_serverSocket, MAXCONNECTS) < 0) /* listen for clients, up to MaxConnects */
         report("listen error", 1); /* terminate */
-//    socklen_t len = sizeof(_sockaddr);  /* address length could change */
-//    _clientSocket = accept(_serverSocket, (sockaddr*)&_sockaddr, &len);  /* accept blocks */
-//    if (_clientSocket < 0) {
-//        report("accept error", 0); /* don't terminated, though there's a problem */
-//    }
 }
 
 Server::Server(int listeningSocket) : _serverSocket(listeningSocket)
@@ -49,20 +44,15 @@ Server::Server(int listeningSocket) : _serverSocket(listeningSocket)
     }    
 }
 
-//std::string Server::read()
-//{
-//        socklen_t len = sizeof(_sockaddr);  /* address length could change */
-//        _clientSocket = accept(_serverSocket, (sockaddr*)&_sockaddr, &len);  /* accept blocks */
-//        if (_clientSocket < 0) {
-//            report("accept error", 0); /* don't terminated, though there's a problem */
-//        }
-//        char buffer[BUFFSIZE] = {0};
-//        ssize_t readReturn = recv(_clientSocket, buffer, sizeof(buffer), 0);
-//        return std::string(buffer);
-//}
+std::string Server::read()
+{
+    socklen_t len = sizeof(_sockaddr);  /* address length could change */
+    _clientSocket = accept(_serverSocket, (sockaddr*)&_sockaddr, &len);  /* accept blocks */
+    if (_clientSocket < 0) {
+        report("accept error", 0); /* don't terminated, though there's a problem */
+    }
+    char buffer[BUFFSIZE] = {0};
+    ssize_t readReturn = recv(_clientSocket, buffer, sizeof(buffer), 0);
+    return std::string(buffer);
+}
 
-//void Server::write()
-//{
-//    std::string msg{"OK iz server write"};
-//    ssize_t writeReturn = ::write(_clientSocket, msg.data(), msg.size()); /* echo as confirmation */
-//}

@@ -3,10 +3,11 @@
 
 void Client::report(const std::string& msg, int terminate) {
   perror(msg.c_str());
-  std::cout << msg;  if (terminate) exit(-1); /* failure */
+  std::cout << msg;  
+  if (terminate) exit(-1); /* failure */
 }
 
-Client::Client()
+Client::Client(std::string ip, int portNumber)
 {
     /* fd for the socket */
     _clientSocket = socket(AF_INET,      /* versus AF_LOCAL */
@@ -21,11 +22,9 @@ Client::Client()
         report("bad address family", 1);
   
     /* connect to the server: configure server's address 1st */
-    _sockaddr.sin_family = AF_INET;
-    _sockaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    _sockaddr.sin_port = htons(PORTNUMBER); /* port number in big-endian */ 
+    sockaddr_in ipSocketAddress{AF_INET, htons(PORTNUMBER), inet_addr("127.0.0.1"), };
 
-    int connectReturn = connect(_clientSocket, (sockaddr*) &_sockaddr, sizeof(_sockaddr));
+    int connectReturn = connect(_clientSocket, (sockaddr*) &ipSocketAddress, sizeof(sockaddr));
            
 }
 

@@ -5,23 +5,15 @@
 
 int main()
 {
-//    Server server;
-//    std::string msg = server.read();
-//    std::cout << "server main message: " << msg << std::endl;
-//    server.write();
-//    return 0;
     std::string msg{""};
     Listener listener(HOST, PORTNUMBER);
-    // Server server{listener};
-    bool running{true};
-    while (running) {
-        int clientFileDescriptor = listener.accept();
-        // char buffer[BUFFSIZE] = {0};
-        // ssize_t readReturn = listener.read();
 
-        msg = clientFileDescriptor.recv();
+    bool running{true};
+    Server server(listener.get_listener_socket());
+    while (running) {
+        sockaddr_in socketAddr = listener.accept();
+        msg = socketAddr.recv();
         std::cout << msg << std::endl;
-        // listener.write();
         if (msg == std::string("close connection")) {
             break;
         }

@@ -2,26 +2,40 @@
 #define _LISTENER_H
 
 #include <string>
-#include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 #include <netinet/tcp.h>
+#include <netdb.h>
 #include <arpa/inet.h>
 #include <iostream>
+#include <cstddef>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <netdb.h>
+
+#include "../include/socket.h" // constants
+#include "../include/server.h" // constants
+
 
 class Listener
 {
 private:
-    std::string _ip{"0.0.0.0"};
-    int  _listenerFileDescriptor{socket(AF_INET, SOCK_STREAM, 0)}; 
+    std::pair<std::string, int portNumber> _listenerSocket; 
+    std::vector<std::bytes> _bytes;
+ 
 public:
-    Listener(std::string ip, int listenerFileDescriptor);
-    // int get_listener_socket() { return _listenerSocket; }
-    int accept();
-    //void report(const std::string& msg, int terminate);
-    //std::string read();
-    //void write();    
+    Listener(std::pair<std::string, int>, std::vector<std::bytes> bytes);
+    void report(const std::string& msg, int terminate);
+    sockaddr_in accept();
+    std::string read();
+    void write(std::string& msg);
+    int get_listener_socket() { return _listenerSocket; } // for usage in server constructor     
 };
 
 #endif
